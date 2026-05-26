@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ИП Навруз | Строительство и ремонт 15+ лет опыта</title>
+    <!-- CSS faylini ulash -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Шапка -->
+    <header>
+      <div class="container nav-container">
+        <div class="logo">ИП НАВРУЗ</div>
+        <nav class="nav-links">
+          <a href="#services">Услуги</a>
+          <a href="#portfolio">Наши работы</a>
+          <a href="#reviews">Отзывы</a>
+          <a href="#contacts">Контакты</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Баннер -->
+    <section class="hero">
+      <div class="container">
+        <span class="badge">🔨 Более 15 лет успешной работы в РФ</span>
+        <h1 style="margin-top: 15px">
+          Строительные и ремонтные работы любой сложности
+        </h1>
+        <p>
+          Ремонт квартир, благоустройство, брусчатка и профессиональные работы с
+          бетоном.
+        </p>
+      </div>
+    </section>
+
+    <!-- Услуги -->
+    <section id="services" class="section">
+      <div class="container">
+        <h2 class="section-title">Наши услуги</h2>
+        <div class="services-grid">
+          <div class="service-card">
+            <div class="service-icon">🏠</div>
+            <h3>Ремонт квартир</h3>
+            <p>
+              Косметический, капитальный и евроремонт под ключ. Качественная
+              отделка.
+            </p>
+          </div>
+          <div class="service-card">
+            <div class="service-icon">🧱</div>
+            <h3>Брусчатка и бордюры</h3>
+            <p>
+              Укладка тротуарной плитки, брусчатки и установка дорожных
+              бордюров.
+            </p>
+          </div>
+          <div class="service-card">
+            <div class="service-icon">🌱</div>
+            <h3>Укладка газона</h3>
+            <p>
+              Озеленение территорий, подготовка почвы, рулонный и посевной
+              газон.
+            </p>
+          </div>
+        </div>
+
+        <!-- Бетонный раздел с видео внутри -->
+        <div class="concrete-section">
+          <div class="concrete-title">
+            📐 <span>Бетонные работы любой сложности (Видео процессы)</span>
+          </div>
+          <p style="margin-bottom: 20px; color: #555">
+            Фундаменты, отмостки, площадки и подпорные стены. Выполняем строго
+            по технологии.
+          </p>
+          <div class="concrete-grid">
+            <div class="gallery-item">
+              <video controls poster="https://picsum.photos">
+                <source
+                  src="/video/Запись 2024-04-18 210450.mp4"
+                  type="video/mp4"
+                />
+                Браузер не поддерживает видео.
+              </video>
+              <div class="gallery-desc">Заливка фундамента под дом</div>
+            </div>
+            <div class="gallery-item">
+              <video controls poster="https://picsum.photos">
+                <source src="beton-video2.mp4" type="video/mp4" />
+                Браузер не поддерживает видео.
+              </video>
+              <div class="gallery-desc">
+                Устройство бетонной отмостки вокруг здания
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Галерея (Картинки открываются) -->
+    <section id="portfolio" class="section" style="background-color: #eaedf1">
+      <div class="container">
+        <h2 class="section-title">Галерея выполненных работ</h2>
+        <p
+          style="
+            text-align: center;
+            margin-top: -30px;
+            margin-bottom: 30px;
+            color: #7f8c8d;
+          "
+        >
+          Нажмите на картинку, чтобы увеличить
+        </p>
+
+        <div class="gallery-grid">
+          <div class="gallery-item" onclick="openLightbox(this)">
+            <img src="https://picsum.photos" alt="Ремонт гостиной" />
+            <div class="gallery-desc">Капитальный ремонт гостиной</div>
+          </div>
+          <div class="gallery-item" onclick="openLightbox(this)">
+            <img src="https://picsum.photos" alt="Укладка брусчатки" />
+            <div class="gallery-desc">Укладка брусчатки во дворе</div>
+          </div>
+          <div class="gallery-item" onclick="openLightbox(this)">
+            <img src="https://picsum.photos" alt="Газон" />
+            <div class="gallery-desc">
+              Озеленение и укладка рулонного газона
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Окно Lightbox -->
+    <div id="lightboxModal" class="lightbox">
+      <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+      <img id="lightboxImg" src="" alt="Увеличенное фото" />
+    </div>
+
+    <!-- Отзывы -->
+    <section id="reviews" class="section reviews">
+      <div class="container">
+        <h2 class="section-title">Отзывы наших клиентов</h2>
+        <div class="reviews-grid">
+          <div class="review-card">
+            <p class="review-text">
+              "Заказывали ремонт квартиры под ключ у компании Навруз. Сделали
+              всё идеально ровно и точно в срок. Рекомендую!"
+            </p>
+            <div class="review-author">
+              <span>Александр (г. Москва)</span>
+              <span class="stars">★★★★★</span>
+            </div>
+          </div>
+          <div class="review-card">
+            <p class="review-text">
+              "Ребята делали бетонную отмостку и укладывали брусчатку на даче.
+              Работают очень аккуратно, чувствуется огромный опыт."
+            </p>
+            <div class="review-author">
+              <span>Михаил (Подмосковье)</span>
+              <span class="stars">★★★★★</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Контакты -->
+    <section id="contacts" class="section contact">
+      <div class="container">
+        <h2 class="section-title" style="color: white">Обсудить ваш проект</h2>
+        <p style="font-size: 18px; color: #bdc3c7">
+          Выезд на замер и расчет стоимости — бесплатно!
+        </p>
+        <a href="tel:+79308125354" class="btn-cta"
+          >📞 Позвонить: +7 (930) 812-53-54
+        </a>
+        <br />
+        <a
+          href="https://t.me"
+          target="_blank"
+          class="btn-cta"
+          style="background: #2980b9; margin-top: 10px"
+          >💬 Написать в Telegram</a
+        >
+      </div>
+    </section>
+
+    <!-- Подвал (Footer) -->
+    <footer>
+      <div class="container">
+        <p>
+          &copy; 2026 "Навруз". Строительство и ремонт в РФ. Опыт работы более
+          15 лет.
+        </p>
+      </div>
+    </footer>
+
+    <!-- JavaScript faylini ulash -->
+    <script src="script.js"></script>
+  </body>
+</html>
