@@ -269,4 +269,64 @@ footer {
   .hero h1 {
     font-size: 28px;
   }
+
+  /* Фильтр тугмалари учун стиллар */
+  .filter-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+  }
+  .btn-filter {
+    background-color: #fff;
+    color: #1a252f;
+    border: 2px solid #1a252f;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  .btn-filter:hover,
+  .btn-filter.active {
+    background-color: #f39c12;
+    color: white;
+    border-color: #f39c12;
+    box-shadow: 0 4px 10px rgba(243, 156, 18, 0.3);
+  }
+  /* Tugmalar joylashgan umumiy blok */
+  .filter-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin: 40px 0;
+    flex-wrap: wrap; /* Telefonlarda tugmalar pastga chiroyli tushishi uchun */
+    padding: 0 10px;
+  }
+
+  /* Tugmalarning yangi katta va chiroyli stili */
+  .btn-filter {
+    background-color: #ffffff;
+    color: #1a252f;
+    border: 2px solid #1a252f;
+    padding: 14px 28px; /* Tugma ichidagi masofa (kattaligi) */
+    font-size: 18px; /* Shrift o'lchami */
+    font-weight: bold; /* Qalin harflar */
+    border-radius: 30px; /* Yumaloq burchaklar */
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); /* Yengil soya */
+  }
+
+  /* Sichqoncha ustiga kelganda yoki tugma aktiv bo'lgandagi holati */
+  .btn-filter:hover,
+  .btn-filter.active {
+    background-color: #f39c12; /* To'q sariq rang */
+    color: white;
+    border-color: #f39c12;
+    transform: translateY(-2px); /* Tepaga salgina ko'tarilish effekti */
+    box-shadow: 0 6px 12px rgba(243, 156, 18, 0.3);
+  }
 }

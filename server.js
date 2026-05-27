@@ -2,29 +2,27 @@ const express = require('express');
 const TelegramBot = require('node-telegram-bot-api');
 const fs = require('fs');
 const path = require('path');
-const axios = require('axios');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Telegram Bot Token va Admin ID (Siz bergan ma'lumotlar joylashtirildi)
 const TOKEN = '8792427523:AAFyFsQAcX4W8iZN95BDMCA3e9xQvGZTmOM';
 const bot = new TelegramBot(TOKEN, { polling: true });
 const ADMIN_ID = 7141072364;
 
+const DATA_FILE = path.join(__dirname, 'data.json');
 const userStates = {};
 
-// Statik fayllarni (index.html, style.css, script.js) loyiha asosiy qismidan ulash
+// Ma'lumotlar faylini tekshirish yoki yaratish
+if (!fs.existsSync(DATA_FILE)) {
+  fs.writeFileSync(
+    DATA_FILE,
+    JSON.stringify({ beton: [], gazon: [], bruschatka: [], remont: [] })
+  );
+}
+
 app.use(express.static(__dirname));
 
-// Yuklangan fayllarni saqlash papkalari
-const categories = ['beton', 'gazon', 'bruschatka', 'remont'];
-categories.forEach((cat) => {
-  const dir = path.join(__dirname, 'uploads', cat);
-  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-});
-
-// Telegram Bot xabarlari
 bot.on('message', async (msg) => {
   const chatId = msg.chat.id;
   if (chatId !== ADMIN_ID) return;
@@ -63,43 +61,39 @@ bot.on('callback_query', async (callbackQuery) => {
   if (!state) return;
 
   try {
+    // Telegram'dan faylning to'g'ridan-to'g'ri linkini olish
     const fileLink = await bot.getFileLink(state.fileId);
-    const ext = state.fileType === 'image' ? '.jpg' : '.mp4';
-    const fileName = `${Date.now()}${ext}`;
-    const filePath = path.join(__dirname, 'uploads', category, fileName);
 
-    const response = await axios({ url: fileLink, responseType: 'stream' });
-    response.data.pipe(fs.createWriteStream(filePath)).on('finish', () => {
-      bot.sendMessage(
-        chatId,
-        `✅ Успешно загружено в раздел: ${category.toUpperCase()}`
-      );
-      delete userStates[chatId];
+    // data.json fayliga yozish
+    const fileData = JSON.parse(fs.readFileSync(DATA_FILE));
+    fileData[category].push({
+      src: fileLink,
+      type: state.fileType,
+      date: Date.now(),
     });
+
+    fs.writeFileSync(DATA_FILE, JSON.stringify(fileData, null, 2));
+    bot.sendMessage(
+      chatId,
+      `✅ Успешно добавлено в раздел: ${category.toUpperCase()}. Файлы сохранены навсегда!`
+    );
+    delete userStates[chatId];
   } catch (error) {
-    bot.sendMessage(chatId, '❌ Ошибка при загрузке файла.');
+    bot.sendMessage(chatId, '❌ Ошибка при сохранении ссылки.');
   }
 });
 
-// Asosiy sahifani ochish
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// Galereya API linki
+// Galereya ma'lumotlarini beruvchi API
 app.get('/api/gallery', (req, res) => {
-  let result = {};
-  categories.forEach((cat) => {
-    const dir = path.join(__dirname, 'uploads', cat);
-    if (fs.existsSync(dir)) {
-      result[cat] = fs
-        .readdirSync(dir)
-        .map((file) => `/uploads/${cat}/${file}`);
-    } else {
-      result[cat] = [];
-    }
-  });
-  res.json(result);
+  if (fs.existsSync(DATA_FILE)) {
+    res.json(JSON.parse(fs.readFileSync(DATA_FILE)));
+  } else {
+    res.json({ beton: [], gazon: [], bruschatka: [], remont: [] });
+  }
 });
 
 app.listen(PORT, () => console.log(`Сервер запущен`));

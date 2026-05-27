@@ -3,15 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ИП Навруз | Строительство и ремонт 15+ лет опыта</title>
-    <!-- CSS faylini ulash -->
+    <title>Навруз | Строительство и ремонт 15+ лет опыта</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <!-- Шапка -->
     <header>
       <div class="container nav-container">
-        <div class="logo">ИП НАВРУЗ</div>
+        <div class="logo">НАВРУЗ</div>
         <nav class="nav-links">
           <a href="#services">Услуги</a>
           <a href="#portfolio">Наши работы</a>
@@ -21,7 +19,6 @@
       </div>
     </header>
 
-    <!-- Баннер -->
     <section class="hero">
       <div class="container">
         <span class="badge">🔨 Более 15 лет успешной работы в РФ</span>
@@ -35,113 +32,50 @@
       </div>
     </section>
 
-    <!-- Услуги -->
-    <section id="services" class="section">
-      <div class="container">
-        <h2 class="section-title">Наши услуги</h2>
-        <div class="services-grid">
-          <div class="service-card">
-            <div class="service-icon">🏠</div>
-            <h3>Ремонт квартир</h3>
-            <p>
-              Косметический, капитальный и евроремонт под ключ. Качественная
-              отделка.
-            </p>
-          </div>
-          <div class="service-card">
-            <div class="service-icon">🧱</div>
-            <h3>Брусчатка и бордюры</h3>
-            <p>
-              Укладка тротуарной плитки, брусчатки и установка дорожных
-              бордюров.
-            </p>
-          </div>
-          <div class="service-card">
-            <div class="service-icon">🌱</div>
-            <h3>Укладка газона</h3>
-            <p>
-              Озеленение территорий, подготовка почвы, рулонный и посевной
-              газон.
-            </p>
-          </div>
-        </div>
-
-        <!-- Бетонный раздел с видео внутри -->
-        <div class="concrete-section">
-          <div class="concrete-title">
-            📐 <span>Бетонные работы любой сложности (Видео процессы)</span>
-          </div>
-          <p style="margin-bottom: 20px; color: #555">
-            Фундаменты, отмостки, площадки и подпорные стены. Выполняем строго
-            по технологии.
-          </p>
-          <div class="concrete-grid">
-            <div class="gallery-item">
-              <video controls poster="https://picsum.photos">
-                <source
-                  src="/video/Запись 2024-04-18 210450.mp4"
-                  type="video/mp4"
-                />
-                Браузер не поддерживает видео.
-              </video>
-              <div class="gallery-desc">Заливка фундамента под дом</div>
-            </div>
-            <div class="gallery-item">
-              <video controls poster="https://picsum.photos">
-                <source src="beton-video2.mp4" type="video/mp4" />
-                Браузер не поддерживает видео.
-              </video>
-              <div class="gallery-desc">
-                Устройство бетонной отмостки вокруг здания
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Галерея (Картинки открываются) -->
-    <section id="portfolio" class="section" style="background-color: #eaedf1">
+    <!-- Фильтр Кнопки (Категориялар) -->
+    <section id="portfolio" class="section">
       <div class="container">
         <h2 class="section-title">Галерея выполненных работ</h2>
-        <p
-          style="
-            text-align: center;
-            margin-top: -30px;
-            margin-bottom: 30px;
-            color: #7f8c8d;
-          "
-        >
-          Нажмите на картинку, чтобы увеличить
-        </p>
 
-        <div class="gallery-grid">
-          <div class="gallery-item" onclick="openLightbox(this)">
-            <img src="https://picsum.photos" alt="Ремонт гостиной" />
-            <div class="gallery-desc">Капитальный ремонт гостиной</div>
-          </div>
-          <div class="gallery-item" onclick="openLightbox(this)">
-            <img src="https://picsum.photos" alt="Укладка брусчатки" />
-            <div class="gallery-desc">Укладка брусчатки во дворе</div>
-          </div>
-          <div class="gallery-item" onclick="openLightbox(this)">
-            <img src="https://picsum.photos" alt="Газон" />
-            <div class="gallery-desc">
-              Озеленение и укладка рулонного газона
-            </div>
-          </div>
+        <!-- Сортировка тугмалари -->
+        <div class="filter-buttons">
+          <button class="btn-filter active" onclick="filterGallery('all')">
+            🌟 Все работы
+          </button>
+          <button class="btn-filter" onclick="filterGallery('beton')">
+            📐 Бетон и Бордюры
+          </button>
+          <button class="btn-filter" onclick="filterGallery('bruschatka')">
+            🧱 Брусчатка
+          </button>
+          <button class="btn-filter" onclick="filterGallery('gazon')">
+            🌱 Газон и Озеленение
+          </button>
+          <button class="btn-filter" onclick="filterGallery('remont')">
+            🏠 Ремонт квартир
+          </button>
+        </div>
+
+        <!-- Расм ва видеолар шу ерга автоматик тушади -->
+        <div class="gallery-grid" id="galleryContainer">
+          <p style="text-align: center; color: #7f8c8d; grid-column: 1/-1">
+            Загрузка галереи...
+          </p>
         </div>
       </div>
     </section>
 
-    <!-- Окно Lightbox -->
+    <!-- Модальное окно (Lightbox) -->
     <div id="lightboxModal" class="lightbox">
       <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
       <img id="lightboxImg" src="" alt="Увеличенное фото" />
     </div>
 
-    <!-- Отзывы -->
-    <section id="reviews" class="section reviews">
+    <section
+      id="reviews"
+      class="section reviews"
+      style="background-color: #eaedf1"
+    >
       <div class="container">
         <h2 class="section-title">Отзывы наших клиентов</h2>
         <div class="reviews-grid">
@@ -169,15 +103,14 @@
       </div>
     </section>
 
-    <!-- Контакты -->
     <section id="contacts" class="section contact">
       <div class="container">
         <h2 class="section-title" style="color: white">Обсудить ваш проект</h2>
         <p style="font-size: 18px; color: #bdc3c7">
           Выезд на замер и расчет стоимости — бесплатно!
         </p>
-        <a href="tel:+79308125354" class="btn-cta"
-          >📞 Позвонить: +7 (930) 812-53-54
+        <a href="tel:+79308125354 " class="btn-cta"
+          >📞 Позвонить: +7 (930)812-53-54
         </a>
         <br />
         <a
@@ -190,7 +123,6 @@
       </div>
     </section>
 
-    <!-- Подвал (Footer) -->
     <footer>
       <div class="container">
         <p>
@@ -200,7 +132,6 @@
       </div>
     </footer>
 
-    <!-- JavaScript faylini ulash -->
     <script src="script.js"></script>
   </body>
 </html>
