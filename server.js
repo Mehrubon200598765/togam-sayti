@@ -18,8 +18,20 @@ const ADMIN_ID = 7141072364;
 const userStates = {};
 
 // Bosh sahifaga kirganda index.html faylini yuborish
+
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  const possiblePaths = [
+    path.join(__dirname, 'public', 'index.html'),
+    path.join(__dirname, 'Public', 'index.html'),
+    path.join(__dirname, 'index.html'),
+  ];
+
+  const validPath = possiblePaths.find((p) => fs.existsSync(p));
+  if (validPath) {
+    res.sendFile(validPath);
+  } else {
+    res.send('Sayt fayllari topilmadi. Papka nomini tekshiring.');
+  }
 });
 
 // Yuklangan fayllarni saqlash uchun papkalar yaratish
