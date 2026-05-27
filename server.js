@@ -17,7 +17,10 @@ const ADMIN_ID = 7141072364;
 // Vaqtincha foydalanuvchi holatini saqlash
 const userStates = {};
 
-app.use(express.static('public'));
+// Bosh sahifaga kirganda index.html faylini yuborish
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
 // Yuklangan fayllarni saqlash uchun papkalar yaratish
 const categories = ['beton', 'gazon', 'bruschatka', 'remont'];
