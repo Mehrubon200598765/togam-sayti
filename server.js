@@ -5,46 +5,29 @@ const path = require('path');
 const axios = require('axios');
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
-// Telegram Bot Token (Buni BotFather'dan olasiz)
+// Telegram Bot Token va Admin ID (Siz bergan ma'lumotlar joylashtirildi)
 const TOKEN = '8792427523:AAFyFsQAcX4W8iZN95BDMCA3e9xQvGZTmOM';
 const bot = new TelegramBot(TOKEN, { polling: true });
-
-// Tog'angizning Telegram ID raqami (Begonalar rasm joylay olmasligi uchun)
 const ADMIN_ID = 7141072364;
 
-// Vaqtincha foydalanuvchi holatini saqlash
 const userStates = {};
 
-// Fayllarni to'g'ridan-to'g'ri loyiha asosiy qismidan ulash
-app.use(express.static(path.join(__dirname)));
+// Statik fayllarni (index.html, style.css, script.js) loyiha asosiy qismidan ulash
+app.use(express.static(__dirname));
 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
-});
-
-const validPath = possiblePaths.find((p) => fs.existsSync(p));
-if (validPath) {
-  res.sendFile(validPath);
-} else {
-  res.send('Sayt fayllari topilmadi. Papka nomini tekshiring.');
-}
-
-// Yuklangan fayllarni saqlash uchun papkalar yaratish
+// Yuklangan fayllarni saqlash papkalari
 const categories = ['beton', 'gazon', 'bruschatka', 'remont'];
 categories.forEach((cat) => {
-  const dir = path.join(__dirname, 'public', 'uploads', cat);
+  const dir = path.join(__dirname, 'uploads', cat);
   if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
 });
 
-// Botga rasm yoki video kelsa
+// Telegram Bot xabarlari
 bot.on('message', async (msg) => {
   const chatId = msg.chat.id;
-
-  if (chatId !== ADMIN_ID) {
-    return bot.sendMessage(chatId, '🚫 Вы не являетесь администратором.');
-  }
+  if (chatId !== ADMIN_ID) return;
 
   if (msg.photo || msg.video) {
     const fileId = msg.photo
@@ -54,7 +37,6 @@ bot.on('message', async (msg) => {
 
     userStates[chatId] = { fileId, fileType };
 
-    // Bo'limni tanlash uchun tugmalar
     const opts = {
       reply_markup: {
         inline_keyboard: [
@@ -73,7 +55,6 @@ bot.on('message', async (msg) => {
   }
 });
 
-// Tugma bosilganda faylni yuklab olish va saqlash
 bot.on('callback_query', async (callbackQuery) => {
   const chatId = callbackQuery.message.chat.id;
   const category = callbackQuery.data;
@@ -85,13 +66,7 @@ bot.on('callback_query', async (callbackQuery) => {
     const fileLink = await bot.getFileLink(state.fileId);
     const ext = state.fileType === 'image' ? '.jpg' : '.mp4';
     const fileName = `${Date.now()}${ext}`;
-    const filePath = path.join(
-      __dirname,
-      'public',
-      'uploads',
-      category,
-      fileName
-    );
+    const filePath = path.join(__dirname, 'uploads', category, fileName);
 
     const response = await axios({ url: fileLink, responseType: 'stream' });
     response.data.pipe(fs.createWriteStream(filePath)).on('finish', () => {
@@ -106,16 +81,25 @@ bot.on('callback_query', async (callbackQuery) => {
   }
 });
 
-// Saytga barcha rasmlarni JSON formatda beradigan API link
+// Asosiy sahifani ochish
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+// Galereya API linki
 app.get('/api/gallery', (req, res) => {
   let result = {};
   categories.forEach((cat) => {
-    const dir = path.join(__dirname, 'public', 'uploads', cat);
-    result[cat] = fs.readdirSync(dir).map((file) => `/uploads/${cat}/${file}`);
+    const dir = path.join(__dirname, 'uploads', cat);
+    if (fs.existsSync(dir)) {
+      result[cat] = fs
+        .readdirSync(dir)
+        .map((file) => `/uploads/${cat}/${file}`);
+    } else {
+      result[cat] = [];
+    }
   });
   res.json(result);
 });
 
-app.listen(PORT, () =>
-  console.log(`Сервер запущен на http://localhost:${PORT}`)
-);
+app.listen(PORT, () => console.log(`Сервер запущен`));
