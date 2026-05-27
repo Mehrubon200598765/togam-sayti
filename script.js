@@ -72,4 +72,56 @@ document
   .getElementById('lightboxModal')
   .addEventListener('click', function (e) {
     if (e.target !== document.getElementById('lightboxImg')) closeLightbox();
+    // Izohlarni yuklash funksiyasi
+    function loadReviews() {
+      fetch('/api/reviews')
+        .then((res) => res.json())
+        .then((reviews) => {
+          const container = document.getElementById('reviewsContainer');
+          container.innerHTML = ''; // Tozalash
+
+          reviews.forEach((rev) => {
+            const starsString =
+              '★'.repeat(rev.stars) + '☆'.repeat(5 - rev.stars);
+            container.innerHTML += `
+                    <div class="review-card">
+                        <p class="review-text">"${rev.text}"</p>
+                        <div class="review-author">
+                            <span>${rev.name}</span>
+                            <span class="stars">${starsString}</span>
+                        </div>
+                    </div>`;
+          });
+        });
+    }
+
+    // Sayt ochilganda izohlarni ham yuklaymiz
+    document.addEventListener('DOMContentLoaded', () => {
+      loadReviews(); // Izohlarni yuklashni chaqirish
+    });
+
+    // Yangi izoh yuborish jaryoni
+    function submitReview(event) {
+      event.preventDefault();
+
+      const name = document.getElementById('revName').value;
+      const stars = document.getElementById('revStars').value;
+      const text = document.getElementById('revText').value;
+
+      fetch('/api/reviews', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, text, stars }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success) {
+            alert('Спасибо! Ваш отзыв успешно добавлен.');
+            document.getElementById('addReviewForm').reset(); // Formani tozalash
+            loadReviews(); // Izohlarni qayta yangilash
+          } else {
+            alert('Ошибка при добавлении отзыва.');
+          }
+        });
+    }
   });

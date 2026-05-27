@@ -78,27 +78,53 @@
     >
       <div class="container">
         <h2 class="section-title">Отзывы наших клиентов</h2>
-        <div class="reviews-grid">
-          <div class="review-card">
-            <p class="review-text">
-              "Заказывали ремонт квартиры под ключ у компании Навруз. Сделали
-              всё идеально ровно и точно в срок. Рекомендую!"
-            </p>
-            <div class="review-author">
-              <span>Александр (г. Москва)</span>
-              <span class="stars">★★★★★</span>
+
+        <!-- Izohlar ro'yxati (Bu yerga avtomat tushadi) -->
+        <div class="reviews-grid" id="reviewsContainer">
+          <p style="text-align: center; color: #7f8c8d; grid-column: 1/-1">
+            Загрузка отзывов...
+          </p>
+        </div>
+
+        <!-- Yangi izoh qoldirish formasi -->
+        <div class="review-form-block">
+          <h3>Оставить свой отзыв</h3>
+          <form id="addReviewForm" onsubmit="submitReview(event)">
+            <div class="form-group">
+              <label>Ваше имя и город:</label>
+              <input
+                type="text"
+                id="revName"
+                placeholder="Например: Иван (г. Чехов)"
+                required
+              />
             </div>
-          </div>
-          <div class="review-card">
-            <p class="review-text">
-              "Ребята делали бетонную отмостку и укладывали брусчатку на даче.
-              Работают очень аккуратно, чувствуется огромный опыт."
-            </p>
-            <div class="review-author">
-              <span>Михаил (Подмосковье)</span>
-              <span class="stars">★★★★★</span>
+
+            <div class="form-group">
+              <label>Ваша оценка (Количество звезд):</label>
+              <select id="revStars" required>
+                <option value="5">⭐⭐⭐⭐⭐ (5 из 5)</option>
+                <option value="4">⭐⭐⭐⭐ (4 из 5)</option>
+                <option value="3">⭐⭐⭐ (3 из 5)</option>
+                <option value="2">⭐⭐ (2 из 5)</option>
+                <option value="1">⭐ (1 из 5)</option>
+              </select>
             </div>
-          </div>
+
+            <div class="form-group">
+              <label>Ваш отзыв:</label>
+              <textarea
+                id="revText"
+                rows="4"
+                placeholder="Напишите ваше мнение о проделанной работе..."
+                required
+              ></textarea>
+            </div>
+
+            <button type="submit" class="btn-submit-review">
+              Отправить отзыв
+            </button>
+          </form>
         </div>
       </div>
     </section>

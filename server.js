@@ -94,6 +94,51 @@ app.get('/api/gallery', (req, res) => {
   } else {
     res.json({ beton: [], gazon: [], bruschatka: [], remont: [] });
   }
+  const REVIEWS_FILE = path.join(__dirname, 'reviews.json');
+
+  // Izohlar fayli bo'lmasa, yaratamiz
+  if (!fs.existsSync(REVIEWS_FILE)) {
+    fs.writeFileSync(
+      REVIEWS_FILE,
+      JSON.stringify(
+        [
+          {
+            name: 'Александр (г. Москва)',
+            text: 'Заказывали ремонт квартиры под ключ у компании Навруз. Сделали всё идеально ровно и точно в срок. Рекомендую!',
+            stars: 5,
+          },
+          {
+            name: 'Михаил (Подмосковье)',
+            text: 'Ребята делали бетонную отмостку и укладывали брусчатку на даче. Работают очень аккуратно, чувствуется огромный опыт.',
+            stars: 5,
+          },
+        ],
+        null,
+        2
+      )
+    );
+  }
+
+  // Izohlarni saytga beradigan API
+  app.get('/api/reviews', (req, res) => {
+    res.json(JSON.parse(fs.readFileSync(REVIEWS_FILE)));
+  });
+
+  // Yangi izoh qo'shadigan API
+  app.post('/api/reviews', express.json(), (req, res) => {
+    const { name, text, stars } = req.body;
+    if (!name || !text || !stars) {
+      return res
+        .status(400)
+        .json({ success: false, message: 'Заполните все поля' });
+    }
+
+    const reviews = JSON.parse(fs.readFileSync(REVIEWS_FILE));
+    reviews.unshift({ name, text, stars: parseInt(stars) }); // Yangi izohni tepaga qo'shadi
+
+    fs.writeFileSync(REVIEWS_FILE, JSON.stringify(reviews, null, 2));
+    res.json({ success: true });
+  });
 });
 
 app.listen(PORT, () => console.log(`Сервер запущен`));
