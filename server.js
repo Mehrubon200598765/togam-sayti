@@ -17,14 +17,15 @@ const ADMIN_ID = 7141072364;
 // Vaqtincha foydalanuvchi holatini saqlash
 const userStates = {};
 
-// Bosh sahifaga kirganda index.html faylini yuborish
+// Fayllarni to'g'ridan-to'g'ri loyiha asosiy qismidan ulash
+app.use(express.static(path.join(__dirname)));
 
 app.get('/', (req, res) => {
-  const possiblePaths = [
-    path.join(__dirname, 'public', 'index.html'),
-    path.join(__dirname, 'Public', 'index.html'),
-    path.join(__dirname, 'index.html'),
-  ];
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+
+
 
   const validPath = possiblePaths.find((p) => fs.existsSync(p));
   if (validPath) {
