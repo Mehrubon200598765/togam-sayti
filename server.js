@@ -21,19 +21,15 @@ const userStates = {};
 app.use(express.static(path.join(__dirname)));
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-
-
-
-  const validPath = possiblePaths.find((p) => fs.existsSync(p));
-  if (validPath) {
-    res.sendFile(validPath);
-  } else {
-    res.send('Sayt fayllari topilmadi. Papka nomini tekshiring.');
-  }
-});
+const validPath = possiblePaths.find((p) => fs.existsSync(p));
+if (validPath) {
+  res.sendFile(validPath);
+} else {
+  res.send('Sayt fayllari topilmadi. Papka nomini tekshiring.');
+}
 
 // Yuklangan fayllarni saqlash uchun papkalar yaratish
 const categories = ['beton', 'gazon', 'bruschatka', 'remont'];
